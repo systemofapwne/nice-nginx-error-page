@@ -13,7 +13,7 @@
 
 <body>
 <div class="container">
-    <div class="left">
+    <div class="left status-<!--# echo var="status" -->">
         <svg
             width="300"
             height="300"
@@ -36,18 +36,32 @@
                 <!--# echo var="status_text" default="Something went wrong" -->
             </div>
             <div class="description">
-                <!--# if expr="$status = 404" -->
-                The page you were looking for may have been deleted or
-                moved.
+                <!--# if expr="$status = 401" -->
+                Your access to this resource is denied<br>
+                We could not verify that you are authorized to access this resource.
+                <!--# elif expr="$status = 403" -->
+                Sorry, but you don't have permission to access this resource.
+                <!--# elif expr="$status = 404" -->
+                The page you were looking for may have been deleted or moved.
                 <!--# elif expr="$status = /4\d\d/" -->
-                Your browser sent a request that the server was unable
-                to process.
+                Your browser sent a request that the server was unable to process.
+                <!--# elif expr="$status = 503" -->
+                Sorry, our site is temporarily unavailable.<br>
+                The server is temporarily unable to service your request due to maintenance downtime or capacity problem.<br>
+                Please try again in a few minutes.
+                <!--# elif expr="$status = 504" -->
+                Sorry, our site is currently experiencing errors.<br>
+                Our engineers are working to resolve this issue.<br>
+                Please try accessing this resource again in a few minutes.
                 <!--# elif expr="$status = /5\d\d/" -->
-                The server encountered an error and could not complete
-                your request. Please try again later.
+                Sorry, our site is currently experiencing technical difficulties.<br>
+                Our engineers are working to resolve this issue<br>
                 <!--# else -->
                 Something went wrong while trying to display this page.
                 Please try again later.
+                <!--# endif -->
+                <!--# if expr="$status = 500" -->
+                <div>Refreshing page in <b id="countdown"></b> seconds</div>
                 <!--# endif -->
             </div>
             <!--# if expr="$status = 404" -->
@@ -56,10 +70,23 @@
             </div>
             <!--# endif -->
             <div class="footer">
-                Nginx at <!--# echo var="host" default="localhost" -->
+                <!--# echo var="host" default="localhost" -->
             </div>
         </div>
     </div>
 </div>
+<!--# if expr="$status = /5\d\d/" -->
+<script>
+
+    function countdown(remaining) {
+        if(remaining === 0) location.reload(true);
+        if(remaining > 0){
+            document.getElementById('countdown').innerHTML = remaining;
+            setTimeout(() => { countdown(remaining - 1); }, 1000);
+        }
+    }
+    countdown(10);
+</script>
+<!--# endif -->
 </body>
 </html>

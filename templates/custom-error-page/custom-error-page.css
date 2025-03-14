@@ -43,6 +43,22 @@ html {
     justify-content: center;
     align-items: center;
 }
+/* Define individual background color for http status codes */
+div[class*='status-1'] {
+    background-color: #78909C !important;
+}
+div[class*='status-2'] {
+    background-color: #1e88e5 !important;
+}
+div[class*='status-3'] {
+    background-color: #f44336 !important;
+}
+div[class*='status-4'] {
+    background-color: #f44336 !important;
+}
+div[class*='status-5'] {
+    background-color: #f1c40f !important;
+}
 @media (max-width: 1023px) {
     .left svg {
         min-height: 200px;
