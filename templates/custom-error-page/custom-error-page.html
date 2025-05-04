@@ -36,6 +36,9 @@
                 <!--# echo var="status_text" default="Something went wrong" -->
             </div>
             <div class="description">
+                <!--# if expr="$status = 502" -->
+                <img src="/bad_gateway_meme.png" />
+                <!--# endif -->
                 <!--# if expr="$status = 401" -->
                 Your access to this resource is denied<br>
                 We could not verify that you are authorized to access this resource.
